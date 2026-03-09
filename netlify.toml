@@ -1,3 +1,2 @@
 [build]
-  command = "sed -i \"s/YOUR_API_KEY/$GCAL_API_KEY/g\" index.html"
   publish = "."
