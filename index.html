@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rohan Misra — Sarangi Artist</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #05030B;
+      --bg-2:        #090615;
+      --bg-3:        #0F0C1E;
+      --accent:      #D42B4A;
+      --accent-2:    #7A2BA8;
+      --gradient:    linear-gradient(135deg, #D42B4A 0%, #7A2BA8 100%);
+      --text:        #F0EAFA;
+      --text-2:      #B8AECE;
+      --text-muted:  #6E6488;
+      --border:      rgba(255,255,255,0.06);
+      --border-2:    rgba(255,255,255,0.12);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.5rem 3rem;
+      display: flex; justify-content: space-between; align-items: center;
+      transition: background 0.4s, backdrop-filter 0.4s, border-color 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(5, 3, 11, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem; font-weight: 700;
+      color: var(--text); text-decoration: none;
+    }
+    .nav-logo span {
+      background: var(--gradient);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      color: var(--text-muted); text-decoration: none;
+      font-size: 0.8rem; font-weight: 500; letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-toggle {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; background: none; border: none; padding: 4px;
+    }
+    .nav-toggle span {
+      display: block; width: 22px; height: 1.5px;
+      background: var(--text); transition: all 0.3s;
+    }
+
+    /* ── Hero ── */
+    #hero {
+      display: grid;
+      grid-template-columns: 45fr 55fr;
+      min-height: 100vh;
+    }
+    .hero-text {
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 8rem 3rem 4rem clamp(2rem, 5vw, 5rem);
+      position: relative;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 0.75rem;
+      font-size: 0.68rem; font-weight: 600;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1.75rem;
+    }
+    .hero-eyebrow::after {
+      content: ''; display: block;
+      width: 36px; height: 1px; background: var(--accent);
+    }
+    .hero-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.25rem, 5.5vw, 5.5rem);
+      font-weight: 700; line-height: 1.05;
+      color: var(--text); margin-bottom: 1.25rem;
+    }
+    .hero-name em {
+      font-style: italic;
+      background: var(--gradient);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-tagline {
+      font-size: 0.98rem; color: var(--text-2);
+      line-height: 1.75; max-width: 360px; margin-bottom: 2.5rem;
+    }
+    .hero-cta { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.75rem; border-radius: 6px;
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 0.05em;
+      text-decoration: none; cursor: pointer; border: none;
+      transition: all 0.22s;
+    }
+    .btn-primary { background: var(--gradient); color: #fff; }
+    .btn-primary:hover { opacity: 0.85; transform: translateY(-2px); }
+    .btn-ghost {
+      background: transparent; color: var(--text-2);
+      border: 1px solid var(--border-2);
+    }
+    .btn-ghost:hover {
+      border-color: rgba(255,255,255,0.25); color: var(--text);
+      transform: translateY(-2px);
+    }
+    .hero-scroll {
+      position: absolute; bottom: 2.5rem; left: clamp(2rem,5vw,5rem);
+      display: flex; align-items: center; gap: 0.6rem; opacity: 0.35;
+    }
+    .scroll-line {
+      width: 32px; height: 1px;
+      background: linear-gradient(90deg, var(--text-muted), transparent);
+    }
+    .hero-scroll span {
+      font-size: 0.6rem; font-weight: 500;
+      letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-muted);
+    }
+
+    /* Hero photo */
+    .hero-photo {
+      position: relative; overflow: hidden;
+    }
+    .hero-photo img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center 10%;
+      display: block;
+    }
+    .hero-photo::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to right, var(--bg) 0%, rgba(5,3,11,0.3) 35%, transparent 65%);
+      z-index: 1; pointer-events: none;
+    }
+    .hero-photo::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to top, var(--bg) 0%, transparent 18%);
+      z-index: 1; pointer-events: none;
+    }
+
+    /* ── Shared section styles ── */
+    .section-eyebrow {
+      display: flex; align-items: center; gap: 0.75rem;
+      font-size: 0.68rem; font-weight: 600;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1rem;
+    }
+    .section-eyebrow::before {
+      content: ''; display: block;
+      width: 22px; height: 1px; background: var(--accent);
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 3.5vw, 2.9rem);
+      font-weight: 700; line-height: 1.2;
+      color: var(--text); margin-bottom: 2.75rem;
+    }
+
+    /* ── About ── */
+    #about {
+      background: var(--bg-2);
+      padding: 7rem clamp(2rem, 5vw, 5rem);
+    }
+    .about-inner { max-width: 1100px; margin: 0 auto; }
+    .about-body {
+      max-width: 680px;
+    }
+    .about-copy p {
+      font-size: 0.98rem; line-height: 1.85;
+      color: var(--text-2); margin-bottom: 1.15rem;
+    }
+    .about-copy p:last-child { margin-bottom: 0; }
+    .about-copy a {
+      color: var(--text); font-weight: 600; text-decoration: none;
+      border-bottom: 1px solid rgba(212,43,74,0.5); transition: border-color 0.2s;
+    }
+    .about-copy a:hover { border-color: var(--accent); }
+    .about-copy em { color: var(--text); font-style: italic; }
+
+
+    /* ── Events ── */
+    #events {
+      background: var(--bg-2);
+      padding: 7rem clamp(2rem, 5vw, 5rem);
+    }
+    .events-inner { max-width: 1100px; margin: 0 auto; }
+    .events-list {
+      display: flex; flex-direction: column; gap: 1px;
+      border: 1px solid var(--border); border-radius: 10px; overflow: hidden;
+    }
+    .event-row {
+      display: grid;
+      grid-template-columns: 90px 1fr auto;
+      align-items: center;
+      gap: 2rem;
+      padding: 1.5rem 2rem;
+      background: var(--bg-3);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.2s;
+      text-decoration: none;
+    }
+    .event-row:last-child { border-bottom: none; }
+    .event-row:hover { background: rgba(255,255,255,0.03); }
+    .event-date {
+      text-align: center; flex-shrink: 0;
+    }
+    .event-date-day {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem; font-weight: 700;
+      line-height: 1; color: var(--accent);
+    }
+    .event-date-month {
+      font-size: 0.65rem; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--text-muted); margin-top: 0.2rem;
+    }
+    .event-date-year {
+      font-size: 0.65rem; color: var(--text-muted);
+      margin-top: 0.1rem;
+    }
+    .event-info { min-width: 0; }
+    .event-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem; color: var(--text);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .event-meta {
+      display: flex; align-items: center; gap: 1rem;
+      margin-top: 0.4rem; flex-wrap: wrap;
+    }
+    .event-meta span {
+      font-size: 0.78rem; color: var(--text-muted);
+      display: flex; align-items: center; gap: 0.35rem;
+    }
+    .event-meta svg { flex-shrink: 0; }
+    .event-desc {
+      font-size: 0.8rem; color: var(--text-muted);
+      margin-top: 0.35rem; line-height: 1.5;
+    }
+    .event-link {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      padding: 0.5rem 1.1rem;
+      border: 1px solid var(--border-2); border-radius: 6px;
+      font-size: 0.7rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--text-2); text-decoration: none;
+      white-space: nowrap; flex-shrink: 0;
+      transition: all 0.2s;
+    }
+    .event-row:hover .event-link {
+      border-color: var(--accent); color: var(--accent);
+    }
+    .events-empty {
+      padding: 4rem 2rem; text-align: center;
+      background: var(--bg-3); border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+    .events-empty p {
+      font-size: 0.9rem; color: var(--text-muted); margin-top: 0.5rem;
+    }
+    .events-loading {
+      padding: 3rem; text-align: center;
+      font-size: 0.85rem; color: var(--text-muted);
+    }
+    @media (max-width: 600px) {
+      .event-row { grid-template-columns: 70px 1fr; gap: 1rem; padding: 1.25rem; }
+      .event-link { display: none; }
+      .event-date-day { font-size: 1.6rem; }
+    }
+
+    /* ── Music ── */
+    #music {
+      background: var(--bg);
+      padding: 7rem clamp(2rem, 5vw, 5rem);
+    }
+    .music-inner { max-width: 1100px; margin: 0 auto; }
+    .music-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
+      gap: 1.15rem;
+    }
+    .music-card {
+      background: var(--bg-3); border: 1px solid var(--border);
+      border-radius: 10px; overflow: hidden;
+      transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+      text-decoration: none; display: block;
+    }
+    .music-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--border-2);
+      box-shadow: 0 14px 40px rgba(0,0,0,0.45);
+    }
+    .music-card-art {
+      width: 100%; aspect-ratio: 1;
+      background: linear-gradient(135deg, #1a0830 0%, #0d0420 100%);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .music-card-art::after {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at 35% 35%, rgba(212,43,74,0.18), transparent 60%);
+    }
+    .music-card-art svg { opacity: 0.18; color: var(--accent); }
+    .music-card-body { padding: 1rem 1.1rem 1.2rem; }
+    .music-card-type {
+      font-size: 0.6rem; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 0.3rem;
+    }
+    .music-card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem; color: var(--text); margin-bottom: 0.2rem;
+    }
+    .music-card-year { font-size: 0.73rem; color: var(--text-muted); }
+    .music-card-listen {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      margin-top: 0.75rem;
+      font-size: 0.67rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--text-muted); transition: color 0.2s;
+    }
+    .music-card:hover .music-card-listen { color: var(--accent); }
+
+    .music-streaming {
+      margin-top: 2.5rem; padding-top: 2.5rem;
+      border-top: 1px solid var(--border);
+      display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap;
+    }
+    .streaming-label {
+      font-size: 0.68rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted);
+    }
+    .streaming-links { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+    .streaming-link {
+      padding: 0.42rem 1rem; border: 1px solid var(--border);
+      border-radius: 100px; font-size: 0.72rem; font-weight: 500;
+      color: var(--text-muted); text-decoration: none; transition: all 0.2s;
+    }
+    .streaming-link:hover {
+      border-color: var(--accent); color: var(--text);
+      background: rgba(212,43,74,0.07);
+    }
+
+    /* ── Videos ── */
+    #videos {
+      background: var(--bg-2);
+      padding: 7rem clamp(2rem, 5vw, 5rem);
+    }
+    .videos-inner { max-width: 1100px; margin: 0 auto; }
+    .videos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.15rem;
+    }
+    .video-card {
+      background: var(--bg-3); border: 1px solid var(--border);
+      border-radius: 10px; overflow: hidden;
+      transition: transform 0.25s, border-color 0.25s;
+    }
+    .video-card:hover { transform: translateY(-4px); border-color: var(--border-2); }
+    .video-thumb {
+      width: 100%; aspect-ratio: 16/9;
+      background: linear-gradient(135deg, #110520 0%, #05030B 100%);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden; cursor: pointer;
+    }
+    .video-thumb::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at center, rgba(122,43,168,0.18), transparent 65%);
+    }
+    .play-btn {
+      width: 50px; height: 50px; border-radius: 50%;
+      background: rgba(255,255,255,0.07);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.14);
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.22s; position: relative; z-index: 1;
+    }
+    .video-thumb:hover .play-btn {
+      background: rgba(212,43,74,0.28); border-color: var(--accent);
+      transform: scale(1.1);
+    }
+    .play-btn svg { color: #fff; margin-left: 3px; }
+    .video-card-body { padding: 1rem 1.1rem 1.2rem; }
+    .video-platform {
+      font-size: 0.6rem; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 0.3rem;
+    }
+    .video-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem; color: var(--text);
+    }
+    .video-desc {
+      font-size: 0.8rem; color: var(--text-muted);
+      margin-top: 0.3rem; line-height: 1.5;
+    }
+
+    /* ── Contact ── */
+    #contact {
+      background: var(--bg);
+      padding: 7rem clamp(2rem, 5vw, 5rem);
+      position: relative; overflow: hidden;
+    }
+    #contact::before {
+      content: ''; position: absolute;
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 650px; height: 650px; border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(212,43,74,0.06) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .contact-inner {
+      max-width: 840px; margin: 0 auto;
+      text-align: center; position: relative;
+    }
+    #contact .section-eyebrow { justify-content: center; }
+    #contact .section-eyebrow::before { display: none; }
+    .contact-sub {
+      font-size: 0.98rem; color: var(--text-2);
+      line-height: 1.75; margin-bottom: 3rem;
+      margin-top: -1.5rem;
+    }
+    .contact-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 1rem; margin-bottom: 2.5rem;
+    }
+    .contact-card {
+      background: var(--bg-3); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1.65rem 1.25rem;
+      text-decoration: none; transition: all 0.22s; display: block;
+    }
+    .contact-card:hover {
+      border-color: var(--accent);
+      background: rgba(212,43,74,0.05);
+      transform: translateY(-3px);
+    }
+    .contact-card-icon { color: var(--accent); margin-bottom: 0.6rem; }
+    .contact-card-label {
+      font-size: 0.6rem; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--text-muted); margin-bottom: 0.3rem;
+    }
+    .contact-card-value { font-size: 0.86rem; color: var(--text); }
+
+    .social-links {
+      display: flex; justify-content: center;
+      gap: 0.6rem; flex-wrap: wrap;
+    }
+    .social-link {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      padding: 0.48rem 1.1rem; border: 1px solid var(--border);
+      border-radius: 100px; font-size: 0.72rem; font-weight: 500;
+      color: var(--text-muted); text-decoration: none; transition: all 0.2s;
+    }
+    .social-link:hover {
+      border-color: var(--border-2); color: var(--text);
+      background: rgba(255,255,255,0.03);
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--bg-2); padding: 1.75rem clamp(2rem, 5vw, 5rem);
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 1rem;
+    }
+    footer p { font-size: 0.73rem; color: var(--text-muted); }
+    footer a { color: var(--text-2); text-decoration: none; transition: color 0.2s; }
+    footer a:hover { color: var(--text); }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      #hero { grid-template-columns: 1fr; }
+      .hero-text {
+        padding: 7rem 1.75rem 3rem;
+        min-height: 65vh;
+      }
+      .hero-scroll { left: 1.75rem; }
+      .hero-photo { height: 65vw; min-height: 320px; }
+      .hero-photo::before {
+        background: linear-gradient(to bottom, var(--bg) 0%, transparent 30%);
+      }
+
+      nav { padding: 1.25rem 1.5rem; }
+      .nav-links { display: none; }
+      .nav-toggle { display: flex; }
+      nav.open .nav-links {
+        display: flex; flex-direction: column;
+        position: fixed; inset: 0;
+        background: var(--bg); z-index: 99;
+        justify-content: center; align-items: center;
+        gap: 2.5rem;
+      }
+      nav.open .nav-links a { font-size: 1.2rem; }
+      footer { justify-content: center; text-align: center; }
+    }
+    @media (max-width: 480px) {
+      .music-grid { grid-template-columns: repeat(2, 1fr); }
+      .videos-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav id="nav">
+    <a class="nav-logo" href="#">Rohan <span>Misra</span></a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#music">Music</a></li>
+      <li><a href="#events">Events</a></li>
+      <li><a href="#videos">Videos</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Hero: text left, photo right — photo visible on load -->
+  <section id="hero">
+    <div class="hero-text">
+      <span class="hero-eyebrow">Sarangi Artist &amp; Musician</span>
+      <h1 class="hero-name">Rohan<br><em>Misra</em></h1>
+      <p class="hero-tagline">
+        Tenth-generation sarangi artist. A sound shaped by centuries, voiced for today.
+      </p>
+      <div class="hero-cta">
+        <a href="#music" class="btn btn-primary">Listen Now</a>
+        <a href="#about" class="btn btn-ghost">About Rohan</a>
+      </div>
+      <div class="hero-scroll">
+        <div class="scroll-line"></div>
+        <span>Scroll</span>
+      </div>
+    </div>
+    <div class="hero-photo">
+      <img src="rohan-misra.jpg" alt="Rohan Misra performing on sarangi" />
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about">
+    <div class="about-inner">
+      <p class="section-eyebrow">About</p>
+      <h2 class="section-title">A living tradition,<br>a new voice</h2>
+      <div class="about-body">
+        <div class="about-copy">
+          <p>
+            Rohan Misra is a tenth-generation sarangi artist, continuing a rare and respected family tradition
+            of Indian classical music. He began learning the sarangi at the age of six from his father and
+            Guru, the legendary <a href="https://www.rameshmisra.com/" target="_blank" rel="noopener">Pandit Ramesh Misra</a>.
+            Under his guidance, Rohan inherited a rich musical legacy shaped by nine generations before him.
+          </p>
+          <p>
+            He now continues his training under the guidance of Pandit Kushal Das, whose mentorship plays an
+            important role in shaping and deepening his musical growth. While strongly rooted in classical
+            music, Rohan also explores other genres and cross-cultural collaborations, bringing new sounds and
+            ideas to the sarangi — an instrument often described as having <em>"a hundred colors."</em>
+          </p>
+          <p>
+            Rohan has performed at Carnegie Hall, Columbia University, the Massachusetts Institute of
+            Technology, and the Smithsonian Institution. He has shared the stage with renowned artists such as
+            Pandit Birju Maharaj, Srimati Kumudini Lakhia, Pandit Swapan Chaudhury, Pandit Rajendra Gangani,
+            Ustad Ma Zila Khan, Pandit Samar Saha, and Pandit Anindo Chatterjee, among others.
+          </p>
+          <p>
+            Through his music, Rohan Misra honors tradition while continuing to grow and share the voice of
+            the sarangi with audiences from many backgrounds.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Events -->
+  <section id="events">
+    <div class="events-inner">
+      <p class="section-eyebrow">Live</p>
+      <h2 class="section-title">Upcoming Events</h2>
+      <div id="events-container">
+        <div class="events-loading">Loading events…</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Music -->
+  <section id="music">
+    <div class="music-inner">
+      <p class="section-eyebrow">Discography</p>
+      <h2 class="section-title">Music</h2>
+      <div class="music-grid">
+        <a href="#" class="music-card">
+          <div class="music-card-art">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+              <circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/>
+            </svg>
+          </div>
+          <div class="music-card-body">
+            <p class="music-card-type">Album</p>
+            <p class="music-card-title">Album Title</p>
+            <p class="music-card-year">Year · N tracks</p>
+            <p class="music-card-listen">Listen <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></p>
+          </div>
+        </a>
+        <a href="#" class="music-card">
+          <div class="music-card-art">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+              <circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/>
+            </svg>
+          </div>
+          <div class="music-card-body">
+            <p class="music-card-type">EP</p>
+            <p class="music-card-title">EP Title</p>
+            <p class="music-card-year">Year · N tracks</p>
+            <p class="music-card-listen">Listen <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></p>
+          </div>
+        </a>
+        <a href="#" class="music-card">
+          <div class="music-card-art">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+              <circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/>
+            </svg>
+          </div>
+          <div class="music-card-body">
+            <p class="music-card-type">Single</p>
+            <p class="music-card-title">Single Title</p>
+            <p class="music-card-year">Year</p>
+            <p class="music-card-listen">Listen <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></p>
+          </div>
+        </a>
+        <a href="#" class="music-card">
+          <div class="music-card-art">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+              <circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/>
+            </svg>
+          </div>
+          <div class="music-card-body">
+            <p class="music-card-type">Single</p>
+            <p class="music-card-title">Single Title</p>
+            <p class="music-card-year">Year</p>
+            <p class="music-card-listen">Listen <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></p>
+          </div>
+        </a>
+      </div>
+      <div class="music-streaming">
+        <span class="streaming-label">Stream on</span>
+        <div class="streaming-links">
+          <a href="#" class="streaming-link">Spotify</a>
+          <a href="#" class="streaming-link">Apple Music</a>
+          <a href="#" class="streaming-link">YouTube Music</a>
+          <a href="#" class="streaming-link">Bandcamp</a>
+          <a href="#" class="streaming-link">SoundCloud</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Videos -->
+  <section id="videos">
+    <div class="videos-inner">
+      <p class="section-eyebrow">Watch</p>
+      <h2 class="section-title">Videos</h2>
+      <div class="videos-grid">
+        <div class="video-card">
+          <div class="video-thumb">
+            <div class="play-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+          </div>
+          <div class="video-card-body">
+            <p class="video-platform">YouTube</p>
+            <p class="video-title">Performance Title</p>
+            <p class="video-desc">Venue or event name · Year</p>
+          </div>
+        </div>
+        <div class="video-card">
+          <div class="video-thumb">
+            <div class="play-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+          </div>
+          <div class="video-card-body">
+            <p class="video-platform">YouTube</p>
+            <p class="video-title">Performance Title</p>
+            <p class="video-desc">Venue or event name · Year</p>
+          </div>
+        </div>
+        <div class="video-card">
+          <div class="video-thumb">
+            <div class="play-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+          </div>
+          <div class="video-card-body">
+            <p class="video-platform">YouTube</p>
+            <p class="video-title">Performance Title</p>
+            <p class="video-desc">Venue or event name · Year</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="contact-inner">
+      <p class="section-eyebrow">Get in Touch</p>
+      <h2 class="section-title">Contact</h2>
+      <p class="contact-sub">
+        For bookings, collaborations, press inquiries, or just to say hello —<br>
+        Rohan would love to hear from you.
+      </p>
+      <div class="contact-cards">
+        <a href="mailto:hello@rohanmisra.com" class="contact-card">
+          <div class="contact-card-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="2" y="4" width="20" height="16" rx="2"/>
+              <path d="m22 7-10 7L2 7"/>
+            </svg>
+          </div>
+          <p class="contact-card-label">Email</p>
+          <p class="contact-card-value">hello@rohanmisra.com</p>
+        </a>
+        <a href="mailto:booking@rohanmisra.com" class="contact-card">
+          <div class="contact-card-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.8 19.8 0 0 1 3.08 4.18 2 2 0 0 1 5.09 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L9.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 23 17z"/>
+            </svg>
+          </div>
+          <p class="contact-card-label">Booking</p>
+          <p class="contact-card-value">booking@rohanmisra.com</p>
+        </a>
+        <a href="#" class="contact-card">
+          <div class="contact-card-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+          </div>
+          <p class="contact-card-label">Press</p>
+          <p class="contact-card-value">Press Kit (PDF)</p>
+        </a>
+      </div>
+      <div class="social-links">
+        <a href="#" class="social-link" target="_blank" rel="noopener">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          YouTube
+        </a>
+        <a href="#" class="social-link" target="_blank" rel="noopener">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          Instagram
+        </a>
+        <a href="#" class="social-link" target="_blank" rel="noopener">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          X / Twitter
+        </a>
+        <a href="#" class="social-link" target="_blank" rel="noopener">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.78a4.85 4.85 0 0 1-1.01-.09z"/></svg>
+          TikTok
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Rohan Misra</p>
+    <p>Son of <a href="https://www.rameshmisra.com/" target="_blank" rel="noopener">Pandit Ramesh Misra</a></p>
+  </footer>
+
+  <script>
+    // ── Google Calendar config ──────────────────────────────────────────────
+    //
+    // SETUP (one-time):
+    //  1. Go to https://console.cloud.google.com
+    //  2. Create a project → Enable "Google Calendar API"
+    //  3. Go to Credentials → Create API Key → copy it below
+    //  4. In Google Calendar, open the performance calendar's Settings
+    //     → "Access permissions" → check "Make available to public"
+    //
+    const GCAL_API_KEY  = 'YOUR_API_KEY';
+    const GCAL_ID       = '41632c7d9fd1977328f313f97f970b043d4bae69de94c6df18de9e75e590912b@group.calendar.google.com';
+    // ────────────────────────────────────────────────────────────────────────
+
+    async function loadEvents() {
+      const container = document.getElementById('events-container');
+
+      if (GCAL_API_KEY === 'YOUR_API_KEY') {
+        container.innerHTML = `
+          <div class="events-empty">
+            <p>Events will appear here once the Google Calendar API key is configured.</p>
+          </div>`;
+        return;
+      }
+
+      try {
+        const now   = new Date().toISOString();
+        const url   = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(GCAL_ID)}/events`
+                    + `?key=${GCAL_API_KEY}&timeMin=${now}&orderBy=startTime&singleEvents=true&maxResults=20`;
+        const res   = await fetch(url);
+        const data  = await res.json();
+
+        if (!res.ok) throw new Error(data.error?.message || 'API error');
+
+        const events = data.items || [];
+        if (events.length === 0) {
+          container.innerHTML = `
+            <div class="events-empty">
+              <p>No upcoming performances scheduled right now.<br>Check back soon.</p>
+            </div>`;
+          return;
+        }
+
+        const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+        const rows = events.map(ev => {
+          const start   = ev.start.dateTime ? new Date(ev.start.dateTime) : new Date(ev.start.date);
+          const day     = start.getDate();
+          const month   = MONTHS[start.getMonth()];
+          const year    = start.getFullYear();
+          const allDay  = !ev.start.dateTime;
+          const timeStr = allDay ? 'All day' : start.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+          const location = ev.location || '';
+          const desc    = ev.description ? ev.description.replace(/<[^>]*>/g, '').trim() : '';
+          const link    = ev.htmlLink || '#';
+
+          return `
+            <a class="event-row" href="${link}" target="_blank" rel="noopener">
+              <div class="event-date">
+                <div class="event-date-day">${day}</div>
+                <div class="event-date-month">${month}</div>
+                <div class="event-date-year">${year}</div>
+              </div>
+              <div class="event-info">
+                <div class="event-title">${ev.summary || 'Untitled Event'}</div>
+                <div class="event-meta">
+                  <span>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                    ${timeStr}
+                  </span>
+                  ${location ? `<span>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                    </svg>
+                    ${location}
+                  </span>` : ''}
+                </div>
+                ${desc ? `<div class="event-desc">${desc}</div>` : ''}
+              </div>
+              <span class="event-link">
+                Details
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </span>
+            </a>`;
+        }).join('');
+
+        container.innerHTML = `<div class="events-list">${rows}</div>`;
+
+      } catch (err) {
+        container.innerHTML = `
+          <div class="events-empty">
+            <p>Could not load events. Please try again later.</p>
+          </div>`;
+        console.error('Google Calendar error:', err);
+      }
+    }
+
+    loadEvents();
+
+    // ── Sticky nav ──────────────────────────────────────────────────────────
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // ── Mobile menu ─────────────────────────────────────────────────────────
+    const toggle = document.getElementById('navToggle');
+    toggle.addEventListener('click', () => nav.classList.toggle('open'));
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      a.addEventListener('click', () => nav.classList.remove('open'));
+    });
+
+    // ── Fade-in on scroll ───────────────────────────────────────────────────
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll(
+      '.about-body, .events-list, .music-card, .video-card, .contact-card'
+    ).forEach((el, i) => {
+      el.style.cssText += `opacity:0;transform:translateY(22px);transition:opacity 0.55s ${i * 0.06}s ease,transform 0.55s ${i * 0.06}s ease;`;
+      io.observe(el);
+    });
+  </script>
+</body>
+</html>
